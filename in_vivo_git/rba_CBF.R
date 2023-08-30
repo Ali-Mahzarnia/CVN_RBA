@@ -4,6 +4,17 @@ library(magrittr)
 library(xlsx)
 library(ggplot2)
 library(ggpubr)
+
+
+
+
+
+filter_score_path = '/Users/ali/Desktop/Aug23/CVN/rba/in_vivo/master_sheet_cvn.xlsx'
+scores = read_xlsx(filter_score_path) %>% select(`SAMBA Brunno` , score_CBF  )
+scores_removal = scores[which(scores$score_CBF<6),1]
+
+
+
 path_vol="/Users/ali/Desktop/Aug23/CVN/rba/in_vivo/individual_label_statistics/"
 file_list=list.files(path_vol)
 
@@ -57,6 +68,10 @@ for (i in 1:length(file_list)) {
  
  
  volumes=as.data.frame(volumes);
+ 
+ index_score_removal = which( volumes[,1] %in%unlist(scores_removal))
+ volumes = volumes[-index_score_removal,] 
+ 
  # volumes$V1=as.numeric(substr(volumes$V1,2,9)) # make dwi numeric
  # volumes[,2:len]=as.numeric(volumes[,2:len])
 # xlsx::write.xlsx2(volumes, "volume_list.xlsx" )
@@ -332,7 +347,6 @@ plot_list = vector(mode = "list", length = length(name_of_survivors_9) )
 
 for (j in 1:length(name_of_survivors_9)) {
   #print(name)
-  # ind_survivors=50 ; ind_survivors = 63
   ind_survivors = which(ROI==name_of_survivors_9[j]) 
   volumes_survive= as.numeric(temp_bind[,ind_survivors+1])
   treatment = temp_bind$Treatment
@@ -355,11 +369,11 @@ for (j in 1:length(name_of_survivors_9)) {
     #background_grid(major = 'xy', minor = "none") + # add thin horizontal lines 
     #panel_border() + 
     theme_bw()+
-    labs(x = "Treatment", y = paste0("ROI Volume in mm"), title = paste0(name_of_survivors_9[j] ) ) +
+    labs(x = "Treatment", y = paste0("ROI CBF Mean"), title = paste0(name_of_survivors_9[j] ) ) +
     stat_summary(fun.y=mean, geom="point", size=4, color="black", position=dodge) +
-    theme(legend.position="bottom", legend.text = element_text(size = 14),
-    legend.title = element_text(size = 10))+
-    theme_bw() 
+    theme(legend.position="bottom", legend.text = element_text(size = 24),
+          legend.title = element_text(size = 18), plot.title = element_text(size = 24), axis.title.y = element_text(size = 20), axis.text.y = element_text(size = 18), axis.text.x = element_text(size = 18))
+  
   
   print(aggregate(as.numeric(volumes_survive)~treatment,data=df,mean))
 }
@@ -389,12 +403,11 @@ pos_ind_table = which(table$diff<0)
 
 
 
-name_of_survivors_9 = table[pos_ind_table[1:9],1]
+name_of_survivors_9 = table[pos_ind_table[1:1],1]
 plot_list = vector(mode = "list", length = length(name_of_survivors_9) )
 
 for (j in 1:length(name_of_survivors_9)) {
   #print(name)
-  # ind_survivors=50 ; ind_survivors = 63
   ind_survivors = which(ROI==name_of_survivors_9[j]) 
   volumes_survive= as.numeric(temp_bind[,ind_survivors+1])
   treatment = temp_bind$Treatment
@@ -417,17 +430,17 @@ for (j in 1:length(name_of_survivors_9)) {
     #background_grid(major = 'xy', minor = "none") + # add thin horizontal lines 
     #panel_border() + 
     theme_bw()+
-    labs(x = "Treatment", y = paste0("ROI Volume in mm"), title = paste0(name_of_survivors_9[j] ) ) +
+    labs(x = "Treatment", y = paste0("ROI CBF Mean"), title = paste0(name_of_survivors_9[j] ) ) +
     stat_summary(fun.y=mean, geom="point", size=4, color="black", position=dodge) +
-    theme(legend.position="bottom", legend.text = element_text(size = 14),
-          legend.title = element_text(size = 10))+
-    theme_bw() 
+    theme(legend.position="bottom", legend.text = element_text(size = 24),
+          legend.title = element_text(size = 18), plot.title = element_text(size = 24), axis.title.y = element_text(size = 20), axis.text.y = element_text(size = 18), axis.text.x = element_text(size = 18))
+  
   
   print(aggregate(as.numeric(volumes_survive)~treatment,data=df,mean))
 }
 
 plot<-ggarrange(plotlist =plot_list ,
-                ncol = 3, nrow = 3, common.legend = TRUE, legend="bottom")
+                ncol = 1, nrow = 1, common.legend = TRUE, legend="bottom")
 
 lastplot=annotate_figure(plot, top = text_grob("CBF_9_violin", 
                                                color = "black", face = "bold", size = 14))
