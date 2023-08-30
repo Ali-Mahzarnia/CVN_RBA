@@ -333,8 +333,7 @@ for (j in 1:length(name_of_survivors_9)) {
   df =as.data.frame( cbind(volumes_survive,treatment) )
   dodge <- position_dodge(width = 0.5 )
   mycolors <- c('blueviolet', 'chartreuse1', 'red', 'azure3')
-  plot_list[[j]]<-
-    ggplot(df, aes(x=treatment, y=as.numeric(volumes_survive), fill = treatment)) +
+  plot_list[[j]]<-ggplot(df, aes(x=treatment, y=as.numeric(volumes_survive), fill = treatment)) +
     geom_violin(inherit.aes=TRUE,position=dodge) +
     scale_color_manual(values=mycolors)+
     scale_fill_manual(values=mycolors)+
@@ -350,10 +349,13 @@ for (j in 1:length(name_of_survivors_9)) {
     #background_grid(major = 'xy', minor = "none") + # add thin horizontal lines 
     #panel_border() + 
     theme_bw()+
-    labs(x = "Treatment", y = paste0("ROI Volume in mm"), title = paste0(name_of_survivors_9[j] ) ) +
-    stat_summary(fun.y=median, geom="point", size=2, color="black", position=dodge) +
-    theme(legend.position="bottom")+
-    theme_bw() 
+    labs(x = "Treatment", y = paste0("ROI FA"), title = paste0(name_of_survivors_9[j] ) ) +
+    stat_summary(fun.y=mean, geom="point", size=4, color="black", position=dodge) +
+    theme(legend.position="bottom", legend.text = element_text(size = 24),
+          legend.title = element_text(size = 18), plot.title = element_text(size = 24), axis.title.y = element_text(size = 20), axis.text.y = element_text(size = 18), axis.text.x = element_text(size = 18))
+  
+  
+  print(aggregate(as.numeric(volumes_survive)~treatment,data=df,mean))
   
 }
 
@@ -391,8 +393,7 @@ for (j in 1:length(name_of_survivors_9)) {
   df =as.data.frame( cbind(volumes_survive,treatment) )
   dodge <- position_dodge(width = 0.5 )
   mycolors <- c('blueviolet', 'chartreuse1', 'red', 'azure3')
-  plot_list[[j]]<-
-    ggplot(df, aes(x=treatment, y=as.numeric(volumes_survive), fill = treatment)) +
+  plot_list[[j]]<-ggplot(df, aes(x=treatment, y=as.numeric(volumes_survive), fill = treatment)) +
     geom_violin(inherit.aes=TRUE,position=dodge) +
     scale_color_manual(values=mycolors)+
     scale_fill_manual(values=mycolors)+
@@ -408,10 +409,13 @@ for (j in 1:length(name_of_survivors_9)) {
     #background_grid(major = 'xy', minor = "none") + # add thin horizontal lines 
     #panel_border() + 
     theme_bw()+
-    labs(x = "Treatment", y = paste0("ROI Volume in mm"), title = paste0(name_of_survivors_9[j] ) ) +
-    stat_summary(fun.y=median, geom="point", size=2, color="black", position=dodge) +
-    theme(legend.position="bottom")+
-    theme_bw() 
+    labs(x = "Treatment", y = paste0("ROI FA"), title = paste0(name_of_survivors_9[j] ) ) +
+    stat_summary(fun.y=mean, geom="point", size=4, color="black", position=dodge) +
+    theme(legend.position="bottom", legend.text = element_text(size = 24),
+          legend.title = element_text(size = 18), plot.title = element_text(size = 24), axis.title.y = element_text(size = 20), axis.text.y = element_text(size = 18), axis.text.x = element_text(size = 18))
+  
+  
+  print(aggregate(as.numeric(volumes_survive)~treatment,data=df,mean))
   
 }
 

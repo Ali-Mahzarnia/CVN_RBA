@@ -352,11 +352,11 @@ for (j in 1:length(name_of_survivors_9)) {
     #background_grid(major = 'xy', minor = "none") + # add thin horizontal lines 
     #panel_border() + 
     theme_bw()+
-    labs(x = "Treatment", y = paste0("ROI Volume in mm"), title = paste0(name_of_survivors_9[j] ) ) +
+    labs(x = "Treatment", y = paste0("ROI Volume"), title = paste0(name_of_survivors_9[j] ) ) +
     stat_summary(fun.y=mean, geom="point", size=4, color="black", position=dodge) +
-    theme(legend.position="bottom", legend.text = element_text(size = 14),
-    legend.title = element_text(size = 10))+
-    theme_bw() 
+    theme(legend.position="bottom", legend.text = element_text(size = 24),
+          legend.title = element_text(size = 18), plot.title = element_text(size = 24), axis.title.y = element_text(size = 20), axis.text.y = element_text(size = 18), axis.text.x = element_text(size = 18))
+  
   
   print(aggregate(as.numeric(volumes_survive)~treatment,data=df,mean))
 }
@@ -408,11 +408,11 @@ for (j in 1:length(name_of_survivors_9)) {
     #background_grid(major = 'xy', minor = "none") + # add thin horizontal lines 
     #panel_border() + 
     theme_bw()+
-    labs(x = "Treatment", y = paste0("ROI Volume in mm"), title = paste0(name_of_survivors_9[j] ) ) +
+    labs(x = "Treatment", y = paste0("ROI Volume"), title = paste0(name_of_survivors_9[j] ) ) +
     stat_summary(fun.y=mean, geom="point", size=4, color="black", position=dodge) +
-    theme(legend.position="bottom", legend.text = element_text(size = 14),
-          legend.title = element_text(size = 10))+
-    theme_bw() 
+    theme(legend.position="bottom", legend.text = element_text(size = 24),
+          legend.title = element_text(size = 18), plot.title = element_text(size = 24), axis.title.y = element_text(size = 20), axis.text.y = element_text(size = 18), axis.text.x = element_text(size = 18))
+  
   
   print(aggregate(as.numeric(volumes_survive)~treatment,data=df,mean))
 }
